@@ -10,25 +10,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
 
-    - name: Use Node.js
-      uses: actions/setup-node@v2.2.0
-      with:
-        node-version: 14.x
+      - name: Use Node.js
+        uses: actions/setup-node@v2.2.0
+        with:
+          node-version: 14.x
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Install dependencies
+      - name: Install dependencies
 
-    - name: Build
-      run: npm run build:prod
+      - name: Build
+        run: npm run build:prod
 
-    - name: Deploy to Github Pages
-      uses: JamesIves/github-pages-deploy-action@4.1.1
-      with:
-        branch: gh-pages
-        folder: docs
-        token: ${{ secrets.TOKEN }}
+      - name: Deploy to Github Pages
+        uses: JamesIves/github-pages-deploy-action@4.1.1
+        with:
+          branch: gh-pages
+          folder: docs
+          token: ${{ secrets.TOKEN }}
