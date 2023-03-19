@@ -10,19 +10,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v2
 
-      - name: Install dependencies
-        run: npm install
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
 
-      - name: Build project
-        run: ng build --prod
+    - name: Install dependencies
 
-      - name: Deploy to Github Pages
-        uses: JamesIves/github-pages-deploy-action@4.1.1
-        with:
-          branch: gh-pages
-          folder: dist/your-project-name
-          token: ${{ secrets.TOKEN }}
-          clean: true
+    - name: Build
+      run: npm run build:prod
+
+    - name: Deploy to Github Pages
+      uses: JamesIves/github-pages-deploy-action@4.1.1
+      with:
+        branch: gh-pages
+        folder: docs
+        token: ${{ secrets.TOKEN }}
