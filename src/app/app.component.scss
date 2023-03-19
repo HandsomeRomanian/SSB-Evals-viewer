@@ -1,0 +1,46 @@
+nav {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+section {
+  display: flex;
+  flex-direction: row;
+  max-width: 95vw;
+  flex-wrap: wrap;
+  place-content: space-around;
+  gap: 16px;
+  margin-bottom: 32px;
+  app-piechart {
+    max-width: 20%;
+    min-width: 200px;
+  }
+}
+table {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  cursor: pointer;
+  th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #64bd29;
+    color: white;
+  }
+  tr {
+    border-spacing: 0 10px;
+  }
+  tr:hover {
+    background-color: #ddd;
+  }
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  th,
+  td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+}
