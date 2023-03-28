@@ -14,8 +14,8 @@ type ChartDataType = ('Excellente' | 'Bien' | 'À Améliorer' | 'Nulle')[];
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  public empNum!: number ;
-  public key: string = '';
+  public empNum!: number;
+  public key: string = localStorage.getItem('api-key') || '';
 
   public chartTitles: string[] = [];
   public questions: string[] = [];
@@ -40,13 +40,18 @@ export class AppComponent {
     q2: [],
     q3: [],
   };
+  public graphsVisible = false;
+
   constructor(private httpClient: HttpClient) {}
 
   public async get() {
     const name = NUM_TO_NAME[this.empNum];
+    this.graphsVisible = false;
     if (!name) {
-      throw new Error('No name found for employee number ' + this.empNum);
+      alert('No data found for employee number ' + this.empNum);
+      return;
     }
+    localStorage.setItem('api-key', this.key);
     const data = await firstValueFrom(
       this.httpClient.get<SheetsModel>(
         'https://sheets.googleapis.com/v4/spreadsheets/1QWbJ7zk-Qzv5b3_6K5ttyepDEABJOjf-IWFvNzFbWOQ/values/Results',
@@ -57,10 +62,11 @@ export class AppComponent {
         }
       )
     );
-    console.log(data.values);
+    this.graphsVisible = true;
+    this.chartTitles = [];
+    this.questions = [];
     this.chartTitles = data.values[0].slice(2, 7);
     this.questions = data.values[0].slice(8, 11);
-    console.log(data.values.filter((x) => x[1] === name));
 
     const userData = data.values.filter((x) => x[1] === name);
     this.data.c1 = userData.map((x) => x[2]).flat() as ChartDataType;
@@ -72,7 +78,6 @@ export class AppComponent {
     this.data.q1 = userData.map((x) => x[8]).flat();
     this.data.q2 = userData.map((x) => x[9]).flat();
     this.data.q3 = userData.map((x) => x[10]).flat();
-    console.log(this.data);
   }
 
   public getChartData(index: number): ChartDataType {

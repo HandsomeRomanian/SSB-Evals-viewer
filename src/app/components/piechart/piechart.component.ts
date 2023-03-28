@@ -1,18 +1,19 @@
 import {
+  OnChanges,
   AfterViewInit,
   Component,
   ElementRef,
   Input,
   ViewChild,
 } from '@angular/core';
-import Chart, { ChartConfiguration, ChartData } from 'chart.js/auto';
+import Chart from 'chart.js/auto';
 
 @Component({
   selector: 'app-piechart',
   templateUrl: './piechart.component.html',
   styleUrls: ['./piechart.component.scss'],
 })
-export class PiechartComponent implements AfterViewInit {
+export class PiechartComponent implements AfterViewInit, OnChanges {
   @ViewChild('canva') canvas!: ElementRef<HTMLCanvasElement>;
   @Input() public title = 'Évaluation';
   @Input() public data: ('Excellente' | 'Bien' | 'À Améliorer' | 'Nulle')[] =
@@ -24,13 +25,24 @@ export class PiechartComponent implements AfterViewInit {
   constructor() {}
 
   public ngAfterViewInit() {
+    this.generateChart(this.chartData);
+  }
+
+  public ngOnChanges() {
+    if (this.chart) {
+      this.chart.destroy();
+      this.generateChart(this.chartData);
+    }
+  }
+
+  public generateChart(data: number[]) {
     this.chart = new Chart(this.canvas.nativeElement, {
       type: 'pie',
       data: {
         labels: ['Excellente', 'Bien', 'À Améliorer', 'Nulle'],
         datasets: [
           {
-            data: this.chartData,
+            data,
             backgroundColor: this.colors,
             borderColor: this.colors,
             borderWidth: 1,

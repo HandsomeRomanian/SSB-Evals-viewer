@@ -1,17 +1,19 @@
 <nav>
-  <input
-    id="num_emp"
-    placeholder="Numéro d'employé"
-    [type]="'text'"
-    [(ngModel)]="empNum"
-  />
-  <input
-    id="num_emp"
-    placeholder="Code d'access"
-    [type]="'text'"
-    [(ngModel)]="key"
-  />
-  <button (click)="get()">Afficher</button>
+  <form>
+    <input
+      id="num_emp"
+      placeholder="Numéro d'employé"
+      [type]="'text'"
+      [(ngModel)]="empNum"
+    />
+    <input
+      id="num_emp"
+      placeholder="Code d'access"
+      [type]="'text'"
+      [(ngModel)]="key"
+    />
+    <button type="submit" (click)="get()">Afficher</button>
+  </form>
 </nav>
 <section>
   <app-piechart
@@ -25,7 +27,9 @@
   <table *ngFor="let item of questions; let i = index">
     <th>{{ item }}</th>
     <tr *ngFor="let item of getQuestionData(i)">
-      {{ item }}
+      {{
+        item
+      }}
     </tr>
   </table>
 </section>
